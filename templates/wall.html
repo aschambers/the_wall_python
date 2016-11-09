@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <style type="text/css">
+</head>
+<style>
+    h3 {
+        margin-right: 40em;
+    }
+    h5 {
+        font-size:1.2em;
+        margin-top:-2em;
+        margin-left:53em;
+    }
+    /*.inline {
+        display:inline-block;
+        margin-top:-5em;
+        margin-left:1020px;
+    }*/
+    .form-group {
+        margin-left:-74em;
+        margin-top:40px;
+    }
+    #btnmessage {
+        margin-top:0.1em;
+        margin-left:66em;
+    }
+    #btncomment {
+        margin-top:0.1em;
+        margin-left:76em;
+        /*margin-left:1010px;*/
+    }
+    #message {
+        margin-left:72em;
+        width: 50%
+    }
+    #comment {
+       margin-top:-2em;
+       margin-left:85em;
+       width:42%;
+    }
+    #postcomment {
+        margin-top:15em;
+        margin-left:9em;
+        margin-bottom:-0.2em;
+    }
+    .user {
+        margin-left:9em;
+        margin-top:1em;
+        width:75%;
+    }
+    .usermessage {
+        margin-left:9em;
+        width:75%;
+        margin-bottom:1em;
+    }
+    .user2 {
+        margin-top:1em;
+        margin-left:10em;
+        width:74%;
+    }
+    .usercomment {
+        margin-top:0em;
+        margin-left:10em;
+        width:74%;
+    }
+    #delete {
+        margin-left:9em;
+        margin-bottom: 1em;
+    }
+</style>
+<body>
+<div class="container">
+    <h3>CodingDojo Wall </h3> 
+        {% if session['loggedin'] == True: %}
+            <h5>Welcome {{session['first_name']}} <a href="/logout">Logout</a></h5>
+        {% endif %}
+    <form action='/message' method='post'> 
+        <div class="form-group">
+            <h4 class='form-signin-heading'>Post a message:</h4>
+            <textarea id="message" rows="5" name="message"></textarea>
+        </div>
+        <button type="submit" class="btn btn-info" id="btnmessage">Post a message</button>
+    </form>
+</div>
+{% if messages %}
+<div class="container2">
+    {% for message in messages %}
+    <div>
+        <strong><p class="user"> {{ message['first_name'] }} {{ message['last_name']}} {{ message['created_at'].strftime('%B %d, %Y')}}</p></strong>
+        <p class="usermessage">{{message['message']}}</p>
+        {% if message['user_id'] == session['id'] %}
+        <form action='/delete/{{message['message_id']}}' method='post'>
+            <button id="delete" class="btn btn-danger"> Delete Message </button>
+        </form>
+        {% endif %}
+    </div class="user2">
+    {% for comment in comments %}
+        {% if message['message_id']  == comment['mess_id'] %}
+        <div class='usercomment'>
+            <div class='col-md-12'>
+                <strong><p> {{ comment['first_name'] }} {{ comment['last_name']}} at {{ comment['created_at'].strftime('%B %d, %Y')}} </p></strong>
+                <p>{{comment['comment']}}</p>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+    <form action='/message/{{message['message_id']}}/comment' method='post'>
+        <h4 id='postcomment'>Post a comment:</h4>
+        <div class='form-group'>  
+            <textarea rows="3" name='comment' id="comment"></textarea>
+        </div>
+        <button type="submit" id="btncomment" class="btn btn-success">Post a comment</button>
+    </form>
+    {% endfor %}
+{% endif %}
+</div>
+</body>
+</html>

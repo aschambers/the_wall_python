@@ -1,0 +1,107 @@
+<!Doctype html>
+<html>
+<head>
+    <title>Registration form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<style type="text/css">
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>Registration</h1>
+        <form action='/register' method='post'>
+            {% with errors = get_flashed_messages(category_filter=["firstNameError"]) %}
+                {% if errors %}
+                <div class="error">
+                    {%- for msg in errors %}
+                    <p>{{ msg }}</p>
+                    {% endfor -%}
+                </div>
+                {% endif %}
+            {% endwith %}
+            <label for='first_name'>First Name:</label>
+            <input type='text' name='first_name' value={{session['first_name']}} ><br/>
+            {% with errors = get_flashed_messages(category_filter=["lastNameError"]) %}
+                {% if errors %}
+                <div class="error">
+                    {%- for msg in errors %}
+                    <p>{{ msg }}</p>
+                    {% endfor -%}
+                </div>
+                {% endif %}
+            {% endwith %}
+            <label for='last_name'>Last Name:</label>
+            <input type='text' name='last_name' value="{{session['last_name']}}" ><br/>
+            {% with errors = get_flashed_messages(category_filter=["emailError"]) %}
+                {% if errors %}
+                <div class="error">
+                    {%- for msg in errors %}
+                    <p>{{ msg }}</p>
+                    {% endfor -%}
+                </div>
+                {% endif %}
+            {% endwith %}
+            <label for='email'>Email:</label>
+            <input type='text' name='email' value={{session['email']}} ><br/>
+            {% with errors = get_flashed_messages(category_filter=["passwordError"]) %}
+                {% if errors %}
+                <div class="error">
+                    {%- for msg in errors %}
+                    <p>{{ msg }}</p>
+                    {% endfor -%}
+                </div>
+                {% endif %}
+            {% endwith %}
+            <label for='password'>Password:</label>
+            <input type='password' name='password'/><br/>
+            {% with errors = get_flashed_messages(category_filter=["confirmPasswordError"]) %}
+                {% if errors %}
+                <div class="error">
+                    {%- for msg in errors %}
+                    <p>{{ msg }}</p>
+                    {% endfor -%}
+                </div>
+                {% endif %}
+            {% endwith %}
+            <label for='confirmPassword'>Confirm Password:</label>
+            <input type='password' name='confirmPassword'/><br/>
+            <input type='submit' value='Submit'>
+        </form>
+    </div>
+    <div class="container">
+        <h1>Login</h1>
+        <form action='/login' method='post'>
+        <input type='hidden' value='action' name={{session['first_name']}}>
+            {% with errors = get_flashed_messages(category_filter=["emailError2"]) %}
+                {% if errors %}
+                <div class="error">
+                    {%- for msg in errors %}
+                    <p>{{ msg }}</p>
+                    {% endfor -%}
+                </div>
+                {% endif %}
+            {% endwith %}
+            <label for='email'>Email:</label>
+            <input type='text' name='email' value={{session['email']}} ><br/>
+            {% with errors = get_flashed_messages(category_filter=["passwordError2"]) %}
+                {% if errors %}
+                <div class="error">
+                    {%- for msg in errors %}
+                    <p>{{ msg }}</p>
+                    {% endfor -%}
+                </div>
+                {% endif %}
+            {% endwith %}
+            <label for='password'>Password:</label>
+            <input type='password' name='password'><br/>
+            <input type='submit' value='Submit'>
+        </form>
+    </div>
+</body>
+</html>
